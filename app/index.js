@@ -10,6 +10,14 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles";
 
+
+// const listDataPlaceholder = [
+//   { id: "1", title: "Plant 1", time: "5D 6H 3M" },
+//   { id: "2", title: "Plant 2", time: "2D 3H 1M" },
+//   { id: "3", title: "Plant 3", time: "1D 2H 50M" },
+//   { id: "4", title: "Plant 4", time: "" },
+// ];
+
 const listData = [
   { id: "1", title: "Plant 1", time: "5D 6H 3M" },
   { id: "2", title: "Plant 2", time: "2D 3H 1M" },
@@ -27,9 +35,9 @@ const Item = ({ item, onPress }) => (
 const Home = () => {
   const navigation = useNavigation();
   const [selectedPlant, setSelectedPlant] = useState(null);
+  // const [listData, setlistData] = useState(listDataPlaceholder);
 
   useEffect(() => {
-    console.log(selectedPlant);
   }, [selectedPlant]);
 
   const handlePlantPress = (item) => {
