@@ -38,6 +38,7 @@ export const styles = StyleSheet.create({
       marginTop: 30,
    },
    appButtonContainer: {
+    marginTop:40,
       elevation: 8,
       backgroundColor: "#3b322c",
       borderRadius: 10,

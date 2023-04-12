@@ -14,12 +14,13 @@ const listData = [
   { id: "1", title: "Plant 1", time: "5D 6H 3M" },
   { id: "2", title: "Plant 2", time: "2D 3H 1M" },
   { id: "3", title: "Plant 3", time: "1D 2H 50M" },
+  { id: "4", title: "Plant 4", time: "" },
 ];
 
 const Item = ({ item, onPress }) => (
   <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={styles.listElement}>
     <Text style={styles.listElementPlant}>{item.title}</Text>
-    <Text style={styles.listElementTime}>{item.time}</Text>
+    <Text style={styles.listElementTime}>{item.time ? `${item.time}` : 'No watering time set'}</Text>
   </TouchableOpacity>
 );
 
