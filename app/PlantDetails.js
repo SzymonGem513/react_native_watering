@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import {styles} from "./styles/PlantDetailsStyles";
+import React, { useState, useEffect } from "react";
+import { styles } from "./styles/PlantDetailsStyles";
 import {
   SafeAreaView,
   Text,
@@ -7,9 +7,8 @@ import {
   View,
   Modal,
 } from "react-native";
-import {useRoute, useNavigation} from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import PopupScreen from "./components/PopupScreen";
-
 
 //placeholder
 const sensorData = {
@@ -20,23 +19,23 @@ const sensorData = {
 };
 
 const PlantDetails = () => {
-  const [plantData, setPlantData] = useState( null );
-  const [isModalVisible, setIsModalVisible] = useState( false );
+  const [plantData, setPlantData] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const route = useRoute();
   const navigation = useNavigation();
 
   const toggleModal = () => {
-    setIsModalVisible( !isModalVisible );
+    setIsModalVisible(!isModalVisible);
   };
 
-  useEffect( () => {
-    if ( route.params && route.params.plant ) {
-      setPlantData( route.params.plant );
+  useEffect(() => {
+    if (route.params && route.params.plant) {
+      setPlantData(route.params.plant);
     }
-  }, [route.params] );
+  }, [route.params]);
 
-  if ( !plantData ) {
+  if (!plantData) {
     return (
       <SafeAreaView style={styles.container}>
         <Text>
@@ -49,14 +48,12 @@ const PlantDetails = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.navigate( "Home" )}
-        >
-          <Text style={styles.backButtonText}>{`<`} </Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.backButtonText}>{`<`} </Text>
+      </TouchableOpacity>
       <View style={styles.content}>
         <View>
           <Text style={styles.plantName}>{plantData.title}</Text>
@@ -73,7 +70,10 @@ const PlantDetails = () => {
           </TouchableOpacity>
         </View>
 
-        <PopupScreen toggleModal={toggleModal} isModalVisible={isModalVisible} />
+        <PopupScreen
+          toggleModal={toggleModal}
+          isModalVisible={isModalVisible}
+        />
 
         <View style={styles.sensorInfoContainer}>
           <Text style={styles.sectionTitle}>Plant sensor info:</Text>

@@ -25,7 +25,6 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backButton: {
-    
     padding: 10,
     position: "absolute",
     top: 0,
@@ -36,11 +35,12 @@ export const styles = StyleSheet.create({
     height: 45,
     borderColor: "#5e8c61",
     borderWidth: 3,
+    zIndex: 999,
   },
   backButtonText: {
     fontSize: 20,
     marginLeft: 2,
-    fontWeight: '700',
+    fontWeight: "700",
     color: "#5e8c61",
     lineHeight: 17,
   },
@@ -95,11 +95,11 @@ export const styles = StyleSheet.create({
     margin: 10,
   },
   careInfoItemTitle: {
-   fontWeight: 700,
-   marginVertical:5,
-   color:"#213d1d",
+    fontWeight: 700,
+    marginVertical: 5,
+    color: "#213d1d",
   },
   careInfoItemText: {
-   fontWeight: 400,
-  }
+    fontWeight: 400,
+  },
 });
