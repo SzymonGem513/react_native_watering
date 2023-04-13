@@ -40,9 +40,8 @@ export const styles = StyleSheet.create({
   backButtonText: {
     fontSize: 20,
     marginLeft: 2,
-    fontWeight: 700,
+    fontWeight: '700',
     color: "#5e8c61",
-    fontWeight: "bolder",
     lineHeight: 17,
   },
   waterButtonText: {
