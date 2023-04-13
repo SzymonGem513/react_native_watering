@@ -1,95 +1,124 @@
-import React, {useState} from 'react'
-import {
-	SafeAreaView,
-	Text,
-	TouchableOpacity,
-	View,
-	Modal,
-} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, Text, TouchableOpacity, View, Modal} from 'react-native';
 
-import {styles} from '../styles/PopupStyles'
+import {styles} from '../styles/PopupStyles';
 
-const PopupScreen = ( {isModalVisible, toggleModal} ) => {
+const PopupScreen = ({isModalVisible, toggleModal}) => {
+   const [hour, setHour] = useState(12);
+   const [minute, setMinute] = useState(0);
+   const [day, setDay] = useState(0);
+   const [seconds, setSeconds] = useState(0);
 
-	const [hour, setHour] = useState( 12 );
-	const [minute, setMinute] = useState( 0 );
-	const [isAM, setIsAM] = useState( true );
+   const formatNumber = (number) => {
+      return number < 10 ? '0' + number : number;
+   };
 
-	const toggleAMPM = () => {
-		setIsAM( !isAM );
+   const handleHourIncrement = () => {
+      setHour((hour + 1) % 13 );
+   };
+
+   const handleHourDecrement = () => {
+      setHour((hour + 12) % 13 );
+   };
+
+   const handleMinuteIncrement = () => {
+      setMinute((minute + 1) % 60);
+   };
+
+   const handleMinuteDecrement = () => {
+      setMinute((minute + 59) % 60);
+   };
+
+   const handleDayIncrement = () => {
+      setDay(day + 1);
+   };
+
+   const handleDayDecrement = () => {
+      if (day > 0) {
+         setDay(day - 1);
+      }
+   };
+
+   useEffect(() => {
+      console.log(seconds);
+   }, [seconds]);
+
+   const handleSave = () => {
+		const totalSeconds = (hour * 60 * 60) + (minute * 60) + (day * 24 * 60 * 60);
+		setSeconds(totalSeconds);
+		toggleModal();
 	};
 
-	const formatNumber = ( number ) => {
-		return number < 10 ? '0' + number : number;
-	};
+   return (
+      <>
+         <Modal
+            visible={isModalVisible}
+            animationType='slide'
+         >
+            <View style={styles.clockContainer}>
+               {/* days */}
+               <View style={styles.columnContainer}>
+                  <Text> Days </Text>
+                  <TouchableOpacity onPress={handleDayIncrement}>
+                     <Text style={styles.buttonText}>+</Text>
+                  </TouchableOpacity>
 
-	const handleHourIncrement = () => {
-		setHour( ( hour + 1 ) % 12 || 12 );
-	};
+                  <Text style={styles.timeText}>{formatNumber(day)}</Text>
 
-	const handleHourDecrement = () => {
-		setHour( ( hour + 11 ) % 12 || 12 );
-	};
+                  <TouchableOpacity onPress={handleDayDecrement}>
+                     <Text style={styles.buttonText}>-</Text>
+                  </TouchableOpacity>
+               </View>
+               {/* hours */}
+               <View style={styles.columnContainer}>
+                  <Text> Hours </Text>
 
-	const handleMinuteIncrement = () => {
-		setMinute( ( minute + 1 ) % 60 );
-	};
+                  <TouchableOpacity onPress={handleHourIncrement}>
+                     <Text style={styles.buttonText}>+</Text>
+                  </TouchableOpacity>
 
-	const handleMinuteDecrement = () => {
-		setMinute( ( minute + 59 ) % 60 );
-	};
+                  <Text style={styles.timeText}>{formatNumber(hour)}</Text>
 
+                  <TouchableOpacity onPress={handleHourDecrement}>
+                     <Text style={styles.buttonText}>-</Text>
+                  </TouchableOpacity>
+               </View>
 
-	return (
-		<>
-			<Modal visible={isModalVisible} animationType="slide">
+               {/* minutes */}
+               <View style={styles.columnContainer}>
+                  <Text> Minutes </Text>
 
-					<View style={styles.timeContainer}>
-						<TouchableOpacity onPress={handleHourIncrement}>
-							<Text style={styles.timeText}>{formatNumber( hour )}</Text>
-						</TouchableOpacity>
-						<Text style={styles.timeText}>:</Text>
-						<TouchableOpacity onPress={handleMinuteIncrement}>
-							<Text style={styles.timeText}>{formatNumber( minute )}</Text>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={toggleAMPM}>
-							<Text style={styles.timeText}>{isAM ? 'AM' : 'PM'}</Text>
-						</TouchableOpacity>
-					</View>
-					<View style={styles.buttonContainer}>
-						<TouchableOpacity onPress={handleHourIncrement}>
-							<Text style={styles.buttonText}>+</Text>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={handleHourDecrement}>
-							<Text style={styles.buttonText}>-</Text>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={handleMinuteIncrement}>
-							<Text style={styles.buttonText}>+</Text>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={handleMinuteDecrement}>
-							<Text style={styles.buttonText}>-</Text>
-						</TouchableOpacity>
-					</View>
+                  <TouchableOpacity onPress={handleMinuteIncrement}>
+                     <Text style={styles.buttonText}>+</Text>
+                  </TouchableOpacity>
 
+                  <Text style={styles.timeText}>{formatNumber(minute)}</Text>
 
-				<TouchableOpacity onPress={toggleModal}>
-					<Text>Close</Text>
-				</TouchableOpacity>
+                  <TouchableOpacity onPress={handleMinuteDecrement}>
+                     <Text style={styles.buttonText}>-</Text>
+                  </TouchableOpacity>
+               </View>
+            </View>
 
-			</Modal>
-			{/* <Modal visible={isModalVisible} animationType="slide">
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          >
-            <Text>This is the popup screen</Text>
-            <TouchableOpacity onPress={toggleModal}>
-              <Text>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal> */}
+            <View style={styles.buttonContainer}>
+               {/* save button */}
+               <TouchableOpacity
+                  style={styles.waterButton}
+                  onPress={handleSave}
+               >
+                  <Text style={styles.waterButtonText}>Save</Text>
+               </TouchableOpacity>
+               {/* close button */}
+               <TouchableOpacity
+                  style={styles.manualButton}
+                  onPress={toggleModal}
+               >
+                  <Text style={styles.manualButtonText}>Cancel</Text>
+               </TouchableOpacity>
+            </View>
+         </Modal>
+      </>
+   );
+};
 
-		</>
-	)
-}
-
-export default PopupScreen
+export default PopupScreen;
