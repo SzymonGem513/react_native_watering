@@ -4,7 +4,6 @@ import {SafeAreaView, Text, TouchableOpacity, View, Modal} from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import PopupScreen from './components/PopupScreen';
 
-
 //placeholder
 const sensorData = {
    temperature: '24°C',
@@ -13,11 +12,10 @@ const sensorData = {
    soilHumidity: '78%',
 };
 
-const PlantDetails = () => {
+const PlantDetails = ({toggleScreen, isVisible, plant, listData, setListData}) => {
    const [plantData, setPlantData] = useState(null);
    const [isModalVisible, setIsModalVisible] = useState(false);
    const [timeString, setTimeString] = useState('');
-  //  const { listData, setListData } = useContext(ListDataContext);
 
    const route = useRoute();
    const navigation = useNavigation();
@@ -26,11 +24,16 @@ const PlantDetails = () => {
       setIsModalVisible(!isModalVisible);
    };
 
-   useEffect(() => {
-      if (route.params && route.params.plant) {
-         setPlantData(route.params.plant);
+   const toggleModalAndParent = () => {
+      toggleModal();
+      toggleScreen();
+   }
+
+     useEffect(() => {
+      if (plant) {
+         setPlantData(plant);
       }
-   }, [route.params]);
+   }, [plant]);
    
    useEffect(() => {
       if (plantData && plantData.time > 0) {
@@ -54,10 +57,15 @@ const PlantDetails = () => {
 
 
    return (
-      <SafeAreaView style={styles.container}>
+      <Modal
+      visible={isVisible}
+      animationType='slide'
+   >
+      <View style={styles.container}>
          <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.goBack()}
+            // onPress={() => navigation.goBack()}
+            onPress={toggleScreen}
          >
             <Text style={styles.backButtonText}>{`<`} </Text>
          </TouchableOpacity>
@@ -84,9 +92,10 @@ const PlantDetails = () => {
             <PopupScreen
                toggleModal={toggleModal}
                isModalVisible={isModalVisible}
-               listData={route.params.listData}
-               plant={route.params.plant}
-               setListData={route.params.setListData}
+               listData={listData}
+               plant={plant}
+               setListData={setListData}
+               toggleParent = {toggleModalAndParent}
             />
 
             <View style={styles.sensorInfoContainer}>
@@ -112,7 +121,8 @@ const PlantDetails = () => {
                </View>
             </View>
          </View>
-      </SafeAreaView>
+      </View>
+      </Modal>
    );
 };
 

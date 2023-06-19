@@ -2,33 +2,31 @@ import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View, Modal} from 'react-native';
 import {styles} from '../styles/PopupStyles';
 
-const PopupScreen = ({isModalVisible, toggleModal, listData, setListData, plant}) => {
+const PopupScreen = ({isModalVisible, toggleModal, listData, setListData, plant, toggleParent}) => {
    const [hour, setHour] = useState(12);
    const [minute, setMinute] = useState(0);
    const [day, setDay] = useState(0);
    // const [seconds, setSeconds] = useState(0);
 
-
    useEffect(() => {
-      if(plant){
-      // setSeconds(plant.time)
-      setDay(Math.floor(plant.time / (24 * 60 * 60)))
-      setHour(Math.floor((plant.time  % (24 * 60 * 60)) / (60 * 60)))
-      setMinute(Math.floor((plant.time % (60 * 60)) / 60))
+      if (plant) {
+         // setSeconds(plant.time)
+         setDay(Math.floor(plant.time / (24 * 60 * 60)));
+         setHour(Math.floor((plant.time % (24 * 60 * 60)) / (60 * 60)));
+         setMinute(Math.floor((plant.time % (60 * 60)) / 60));
       }
-   }, [plant])
-   
+   }, [plant]);
 
    const formatNumber = (number) => {
       return number < 10 ? '0' + number : number;
    };
 
    const handleHourIncrement = () => {
-      setHour((hour + 1) % 13 );
+      setHour((hour + 1) % 13);
    };
 
    const handleHourDecrement = () => {
-      setHour((hour + 12) % 13 );
+      setHour((hour + 12) % 13);
    };
 
    const handleMinuteIncrement = () => {
@@ -54,19 +52,18 @@ const PopupScreen = ({isModalVisible, toggleModal, listData, setListData, plant}
    // }, [seconds]);
 
    const handleSave = () => {
-		const totalSeconds = (hour * 60 * 60) + (minute * 60) + (day * 24 * 60 * 60);
-		// setSeconds(totalSeconds);
+      const totalSeconds = hour * 60 * 60 + minute * 60 + day * 24 * 60 * 60;
+      // setSeconds(totalSeconds);
       handleTimeChange(totalSeconds);
-		toggleModal();
+      // toggleModal();
+      toggleParent();
+   };
 
-	};
-
-   
    const handleTimeChange = (seconds) => {
       // Update the time for the selected plant
       const updatedListData = listData.map((item) => {
          if (item.id === plant.id) {
-            return { ...item, time: seconds };
+            return {...item, time: seconds};
          }
          return item;
       });

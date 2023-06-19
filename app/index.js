@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, SafeAreaView, Text, Alert, FlatList, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {styles} from './styles';
-
+import PlantDetails from './PlantDetails';
 
 const Item = ({item, onPress}) => {
    const [timeString, setTimeString] = useState('');
@@ -32,7 +32,6 @@ const Item = ({item, onPress}) => {
 };
 
 const Home = () => {
-  
    const [listData, setListData] = useState([
       {id: '1', title: 'Plant 1', time: 7200},
       {id: '2', title: 'Plant 2', time: 1080},
@@ -40,14 +39,20 @@ const Home = () => {
       {id: '4', title: 'Plant 4', time: 0},
    ]);
 
-   const navigation = useNavigation();
+   // const navigation = useNavigation();
    const [selectedPlant, setSelectedPlant] = useState(null);
-   
+
+   const [isModalVisible, setIsModalVisible] = useState(false);
+
+   const toggleModal = () => {
+      setIsModalVisible(!isModalVisible);
+   };
+
    useEffect(() => {}, [selectedPlant]);
 
    const handlePlantPress = (item) => {
       setSelectedPlant(item);
-      navigation.navigate('PlantDetails', {plant: item, listData: listData, setListData: setListData});
+      setIsModalVisible(true);
    };
 
    const renderItem = ({item}) => (
@@ -58,8 +63,8 @@ const Home = () => {
    );
 
    return (
-    // <NavigationContainer>
-    // <ListDataProvider>
+      // <NavigationContainer>
+      // <ListDataProvider>
       <SafeAreaView style={styles.container}>
          <View>
             <TouchableOpacity
@@ -76,8 +81,16 @@ const Home = () => {
                style={styles.list}
             />
          </View>
+         {isModalVisible ? selectedPlant && (
+            <PlantDetails
+               toggleScreen={toggleModal}
+               isVisible={isModalVisible}
+               plant={selectedPlant}
+               listData={listData}
+               setListData={setListData}
+            />
+         ) : <></>}
       </SafeAreaView>
-
    );
 };
 
