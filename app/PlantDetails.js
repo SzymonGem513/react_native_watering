@@ -25,6 +25,7 @@ const PlantDetails = () => {
   const route = useRoute();
   const navigation = useNavigation();
 
+
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -34,6 +35,7 @@ const PlantDetails = () => {
       setPlantData(route.params.plant);
     }
   }, [route.params]);
+
 
   if (!plantData) {
     return (
@@ -73,6 +75,9 @@ const PlantDetails = () => {
         <PopupScreen
           toggleModal={toggleModal}
           isModalVisible={isModalVisible}
+          listData = {route.params.listData}
+          plant = {route.params.plant}
+          setListData = {route.params.setListData}
         />
 
         <View style={styles.sensorInfoContainer}>

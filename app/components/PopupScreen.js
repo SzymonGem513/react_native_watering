@@ -3,7 +3,7 @@ import {SafeAreaView, Text, TouchableOpacity, View, Modal} from 'react-native';
 
 import {styles} from '../styles/PopupStyles';
 
-const PopupScreen = ({isModalVisible, toggleModal}) => {
+const PopupScreen = ({isModalVisible, toggleModal, listData, setListData, plant}) => {
    const [hour, setHour] = useState(12);
    const [minute, setMinute] = useState(0);
    const [day, setDay] = useState(0);
@@ -46,8 +46,23 @@ const PopupScreen = ({isModalVisible, toggleModal}) => {
    const handleSave = () => {
 		const totalSeconds = (hour * 60 * 60) + (minute * 60) + (day * 24 * 60 * 60);
 		setSeconds(totalSeconds);
+      handleTimeChange(totalSeconds);
 		toggleModal();
 	};
+
+   
+  const handleTimeChange = (seconds) => {
+   // Update the time for the selected plant
+   const updatedListData = listData.map((item) => {
+     if (item.id === plant.id) {
+       return { ...item, time: seconds }; 
+     }
+     return item;
+   });
+
+   // Update the listData state using the setListData function
+   setListData(updatedListData);
+ };
 
    return (
       <>
