@@ -84,7 +84,8 @@ const PlantDetails = ({toggleScreen, isVisible, plant, listData, setListData}) =
                >
                   <Text style={styles.waterButtonText}>Change watering interval</Text>
                </TouchableOpacity>
-               <TouchableOpacity style={styles.manualButton}>
+               <TouchableOpacity style={styles.manualButton}
+               onPress={()=>{console.log('Manual watering activated')}}>
                   <Text style={styles.manualButtonText}>Water manually</Text>
                </TouchableOpacity>
             </View>
